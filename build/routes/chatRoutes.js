@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const authentication_1 = require("./../middlewares/authentication");
+const express_1 = require("express");
+const chatController_1 = require("../controllers/chatController");
+const router = (0, express_1.Router)();
+router.route("/").get(authentication_1.authenticateUser, chatController_1.fetchChatsByUserId);
+router.route("/:chatId").get(chatController_1.getSingleChat);
+router.route("/").post(authentication_1.authenticateUser, chatController_1.getOrCreateChat);
+router.route("/group").post(authentication_1.authenticateUser, chatController_1.createGroupChat);
+router.route("/group").patch(authentication_1.authenticateUser, chatController_1.renameGroupChat);
+router.route("/group").delete(authentication_1.authenticateUser, chatController_1.deleteGroupChat);
+router.route("/group/add").patch(authentication_1.authenticateUser, chatController_1.addUserToGroup);
+router.route("/group/remove").patch(authentication_1.authenticateUser, chatController_1.removeUserFromGroup);
+exports.default = router;
